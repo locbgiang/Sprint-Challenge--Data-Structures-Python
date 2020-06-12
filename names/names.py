@@ -13,14 +13,68 @@ f.close()
 duplicates = []  # Return the list of duplicates in this data structure
 
 # Replace the nested for loops below with your improvements
+'''
 for name_1 in names_1:
     for name_2 in names_2:
         if name_1 == name_2:
             duplicates.append(name_1)
+'''
+
+
+class BSTNode:
+    def __init__(self, value=None):
+        self.value = value
+        self.left = None
+        self.right = None
+    def __str__(self):
+        return f'{self.value}'
+    def insert(self, newValue):
+        if self.value == None:
+            self.value = newValue
+        elif newValue < self.value:
+            if self.left:
+                self.left.insert(newValue)
+            else: 
+                self.left = BSTNode(newValue)
+        else:
+            if self.right:
+                self.right.insert(newValue)
+            else:
+                self.right = BSTNode(newValue)
+    def contains(self, target):
+        if target == self.value:
+            return True
+        elif target < self.value:
+            if self.left:
+                return self.left.contains(target)
+            else:
+                return False
+        elif target > self.value:
+            if self.right:
+                return self.right.contains(target)
+            else:
+                return False
+    def in_order_print(self):
+        if self.value:
+            if self.left:
+                self.left.in_order_print()
+            print(self.value)
+            if self.right:
+                self.right.in_order_print()
+
+name1_node = BSTNode()
+for name_1 in names_1:
+    name1_node.insert(name_1)
+
+for name_2 in names_2:
+    if name1_node.contains(name_2):
+        duplicates.append(name_2)
+
 
 end_time = time.time()
 print (f"{len(duplicates)} duplicates:\n\n{', '.join(duplicates)}\n\n")
 print (f"runtime: {end_time - start_time} seconds")
+
 
 # ---------- Stretch Goal -----------
 # Python has built-in tools that allow for a very efficient approach to this problem
